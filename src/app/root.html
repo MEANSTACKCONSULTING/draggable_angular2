@@ -1,3 +1,9 @@
+<div>
+  <input type="radio" name="colors" (click)="color='lightgreen'">Green
+  <input type="radio" name="colors" (click)="color='lightblue'">Blue
+  <input type="radio" name="colors" (click)="color='red'">Red
+</div>
+
 <p>
-  root Works!
+  <span [draggable]="color">root</span> Works!
 </p>
