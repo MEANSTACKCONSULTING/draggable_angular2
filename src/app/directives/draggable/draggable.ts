@@ -1,41 +1,49 @@
 import {Directive, ElementRef} from 'angular2/core';
+import {Observable} from 'rxjs/Rx';
+
+interface Position{
+  x: number;
+  y: number;
+}
 
 @Directive({
   selector: '[draggable]',
   host: {
     '(mousedown)': 'onMouseDown($event)',
-    '(mouseup)': 'onMouseUp($event)',
-    '(mousemove)': 'move($event)'
+    '(mouseup)': 'onMouseUp($event)'
   }
 })
 export class Draggable{
+
+  private movable: Observable<any>;
+
   constructor(private el: ElementRef){
     this.el.nativeElement.style.position = 'relative';
+    Observable.fromEvent(el.nativeElement, "mousemove")
+      .subscribe((event) => this.move(event));
+    this.dragEnable = false;
   }
 
-  private startX: number = 0;
-  private startY: number = 0;
-  private x: number = 0;
-  private y: number = 0;
-  private enableToMove: boolean = false;
+  private startPosition = { x: 0, y: 0 };
+  private currentPosition = { x: 0, y: 0 };
+  private dragEnable: boolean;
 
   onMouseDown( event ){
     event.preventDefault();
-    this.startX = event.pageX - this.x;
-    this.startY = event.pageY - this.y;
-    this.enableToMove = true;
+    this.startPosition.x = event.pageX - this.currentPosition.x;
+    this.startPosition.y = event.pageY - this.currentPosition.y;
+    this.dragEnable = true;
   }
   onMouseUp(){
-    this.enableToMove = false;
+    this.dragEnable = false;
   }
 
   move( event ){
-    if (this.enableToMove){
-      this.y = event.pageY - this.startY;
-      this.x = event.pageX - this.startX;
-      console.log(this.el.nativeElement.style);
-      this.el.nativeElement.style.top = this.y + 'px';
-      this.el.nativeElement.style.left = this.x + 'px';
+    if (this.dragEnable){
+      this.currentPosition.x = event.pageX - this.startPosition.x;
+      this.currentPosition.y = event.pageY - this.startPosition.y;
+      this.el.nativeElement.style.top = this.currentPosition.y + 'px';
+      this.el.nativeElement.style.left = this.currentPosition.x + 'px';
     }
   }
 }
