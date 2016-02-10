@@ -15,35 +15,31 @@ interface Position{
 })
 export class Draggable{
 
-  private movable: Observable<any>;
+  private subcription: any;
 
   constructor(private el: ElementRef){
     this.el.nativeElement.style.position = 'relative';
-    Observable.fromEvent(el.nativeElement, "mousemove")
-      .subscribe((event) => this.move(event));
-    this.dragEnable = false;
   }
 
   private startPosition = { x: 0, y: 0 };
   private currentPosition = { x: 0, y: 0 };
-  private dragEnable: boolean;
 
   onMouseDown( event ){
     event.preventDefault();
+    console.log('bisou');
     this.startPosition.x = event.pageX - this.currentPosition.x;
     this.startPosition.y = event.pageY - this.currentPosition.y;
-    this.dragEnable = true;
+    this.subcription = Observable.fromEvent(document, "mousemove")
+      .subscribe((event) => this.move(event));
   }
   onMouseUp(){
-    this.dragEnable = false;
+    this.subcription.unsubscribe();
   }
 
   move( event ){
-    if (this.dragEnable){
-      this.currentPosition.x = event.pageX - this.startPosition.x;
-      this.currentPosition.y = event.pageY - this.startPosition.y;
-      this.el.nativeElement.style.top = this.currentPosition.y + 'px';
-      this.el.nativeElement.style.left = this.currentPosition.x + 'px';
-    }
+    this.currentPosition.x = event.pageX - this.startPosition.x;
+    this.currentPosition.y = event.pageY - this.startPosition.y;
+    this.el.nativeElement.style.top = this.currentPosition.y + 'px';
+    this.el.nativeElement.style.left = this.currentPosition.x + 'px';
   }
 }
