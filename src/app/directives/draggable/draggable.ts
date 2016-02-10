@@ -15,7 +15,7 @@ interface Position{
 })
 export class Draggable{
 
-  private subcription: any;
+  private subcription: any;	// set the correct type
 
   constructor(private el: ElementRef){
     this.el.nativeElement.style.position = 'relative';
@@ -26,7 +26,6 @@ export class Draggable{
 
   onMouseDown( event ){
     event.preventDefault();
-    console.log('bisou');
     this.startPosition.x = event.pageX - this.currentPosition.x;
     this.startPosition.y = event.pageY - this.currentPosition.y;
     this.subcription = Observable.fromEvent(document, "mousemove")
