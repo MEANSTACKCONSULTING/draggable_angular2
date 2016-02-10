@@ -21,8 +21,8 @@ export class Draggable{
     this.el.nativeElement.style.position = 'relative';
   }
 
-  private startPosition = { x: 0, y: 0 };
-  private currentPosition = { x: 0, y: 0 };
+  private startPosition: Position = { x: 0, y: 0 };
+  private currentPosition: Position = { x: 0, y: 0 };
 
   onMouseDown( event ){
     event.preventDefault();
