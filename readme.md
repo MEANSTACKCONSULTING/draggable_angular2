@@ -8,3 +8,6 @@ Running
 =====
 
     ng server
+
+
+Move the Lorem ipsum with the mouse
