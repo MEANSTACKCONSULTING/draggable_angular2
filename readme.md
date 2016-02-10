@@ -7,7 +7,7 @@ Installation
 Running
 =====
 
-    ng server
+    ng serve
 
 
 Move the Lorem ipsum with the mouse
